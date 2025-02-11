@@ -3,15 +3,19 @@
 @section('content')
 <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
     <h1 class="text-2xl font-bold text-center mb-4">Lista de Tarefas</h1>
-    <div class="text-right mb-4">
-        <a href="{{ route('tasks.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Adicionar Nova Tarefa</a>
+    <div class="flex justify-between items-center mb-4">
+        <form action="{{ route('tasks.index') }}" method="GET" class="flex">
+            <input type="text" name="search" placeholder="Buscar tarefa..." value="{{ request('search') }}"
+                class="border rounded-l px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-700">
+                Buscar
+            </button>
+        </form>
+        <a href="{{ route('tasks.create') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+            Adicionar Nova Tarefa
+        </a>
     </div>
 
-    @if (session('success'))
-        <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <table class="min-w-full bg-white border rounded-lg">
         <thead class="bg-gray-200">
