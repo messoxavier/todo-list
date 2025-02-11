@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
     public function index()
-    {
-        $tasks = Task::all();
-        return view('tasks.index', compact('tasks'));
-    }
+{
+    $tasks = Auth::user()->tasks()->get();
+    return view('tasks.index', compact('tasks'));
+}
 
     public function create()
     {
@@ -25,11 +26,7 @@ class TaskController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        Task::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'completed' => false,
-        ]);
+        Auth::user()->tasks()->create($request->all());
 
         return redirect()->route('tasks.index')->with('success', 'Tarefa criada com sucesso!');
     }

@@ -1,46 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-5">
-    <div class="card shadow-sm p-4">
-        <h1 class="mb-4 text-center">Lista de Tarefas</h1>
-        <div class="text-end mb-3">
-            <a href="{{ route('tasks.create') }}" class="btn btn-primary">Adicionar Nova Tarefa</a>
-        </div>
-
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Título</th>
-                    <th>Status</th>
-                    <th class="text-center">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($tasks as $task)
-                <tr>
-                    <td>{{ $task->id }}</td>
-                    <td>{{ $task->title }}</td>
-                    <td>{{ $task->completed ? 'Concluída' : 'Pendente' }}</td>
-                    <td class="text-center">
-                        <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta tarefa?')">Excluir</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+<div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <h1 class="text-2xl font-bold text-center mb-4">Lista de Tarefas</h1>
+    <div class="text-right mb-4">
+        <a href="{{ route('tasks.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Adicionar Nova Tarefa</a>
     </div>
+
+    @if (session('success'))
+        <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <table class="min-w-full bg-white border rounded-lg">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="py-2 px-4 border">ID</th>
+                <th class="py-2 px-4 border">Título</th>
+                <th class="py-2 px-4 border">Status</th>
+                <th class="py-2 px-4 border text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($tasks as $task)
+            <tr class="border-b">
+                <td class="py-2 px-4">{{ $task->id }}</td>
+                <td class="py-2 px-4">{{ $task->title }}</td>
+                <td class="py-2 px-4">{{ $task->completed ? 'Concluída' : 'Pendente' }}</td>
+                <td class="py-2 px-4 text-center">
+                    <a href="{{ route('tasks.edit', $task->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-700">Editar</a>
+                    <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700" onclick="return confirm('Tem certeza que deseja excluir esta tarefa?')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 @endsection
