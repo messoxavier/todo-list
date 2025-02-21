@@ -15,6 +15,19 @@
             <textarea name="description" id="description" class="w-full border p-2 rounded">{{ $task->description }}</textarea>
         </div>
         <div class="mb-4">
+            <label for="due_date" class="block text-gray-700 font-bold mb-2">Prazo</label>
+            <input type="date" name="due_date" id="due_date" class="w-full p-2 border rounded" value="{{ $task->due_date }}">
+        </div>
+
+        <div class="mb-4">
+            <label for="priority" class="block text-gray-700 font-bold mb-2">Prioridade</label>
+            <select name="priority" id="priority" class="w-full p-2 border rounded">
+                <option value="1" {{ $task->priority == 1 ? 'selected' : '' }}>Baixa</option>
+                <option value="2" {{ $task->priority == 2 ? 'selected' : '' }}>Média</option>
+                <option value="3" {{ $task->priority == 3 ? 'selected' : '' }}>Alta</option>
+            </select>
+        </div>
+        <div class="mb-4">
             <label for="completed" class="block text-gray-700 font-bold">Status</label>
             <select name="completed" id="completed" class="w-full border p-2 rounded">
                 <option value="0" {{ !$task->completed ? 'selected' : '' }}>Pendente</option>

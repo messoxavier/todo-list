@@ -19,7 +19,7 @@ class TaskController extends Controller
         }
 
         // Ordena por data de criação (mais recentes primeiro)
-        $tasks = $query->orderBy('created_at', 'desc')->get();
+        $tasks = $query->orderBy('priority', 'desc')->orderBy('due_date', 'asc')->get();
 
         return view('tasks.index', compact('tasks'));
     }
@@ -34,11 +34,15 @@ class TaskController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'due_date' => 'nullable|date|after_or_equal:today',
+            'priority' => 'required|integer|min:1|max:5',
         ]);
 
         Auth::user()->tasks()->create([
             'title' => $request->title,
             'description' => $request->description,
+            'due_date' => $request->due_date,
+            'priority' => $request->priority,
             'completed' => false,
         ]);
 
@@ -65,12 +69,16 @@ class TaskController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'due_date' => 'nullable|date|after_or_equal:today',
+            'priority' => 'required|integer|min:1|max:5',
             'completed' => 'boolean',
         ]);
 
         $task->update([
             'title' => $request->title,
             'description' => $request->description,
+            'due_date' => $request->due_date,
+            'priority' => $request->priority,
             'completed' => $request->completed,
         ]);
 
